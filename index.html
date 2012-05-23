@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>php|tek 2012 - Framework Miracle</title>
+    <title>php|tek 2012 - Writing bad JavaScript with Mario!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="ryan@knplabs.com">
 
@@ -50,12 +50,19 @@
 
             <div class="event-details row-fluid">
                 <div class="span8">
-                    <div class="outer box">
-                        .outer
-                        <div class="middle box">
-                            .middle
-                            <a href="#" class="inner box">
-                                .inner
+                    <div class="mario box">
+                        .mario
+                        <div class="luigi box">
+                            .luigi
+                            <div class="kick-butt-with-fire">
+                                <img src="images/luigi.gif" alt="Luigi, kicking ass" class="luigi-himself" />
+                                <img src="images/fireball.gif" alt="fireball!" class="fireball" />
+                                <img src="images/goomba.gif" alt="Enemy" class="enemy" />
+
+                                <img src="images/bam.gif" alt="BAM!" class="bam-explode" />
+                            </div>
+                            <a href="#" class="peach box">
+                                .peach
                             </a>
                         </div>
                     </div>
@@ -75,10 +82,35 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        var $middleBox = $('.event-details .middle');
+        var $luigi = $('.event-details .luigi');
 
-        $middleBox.click(function() {
-            $(this).toggleClass('active');
+        $luigi.click(function() {
+            var $wrapper = $(this).find('.kick-butt-with-fire').show();
+
+            var $fireball = $(this).find('.fireball');
+            var $enemy = $(this).find('.enemy');
+            var $bam = $(this).find('.bam-explode');
+
+            $fireball.animate({
+                left: '+=320'
+            }, 1000, function() {
+                $fireball.hide();
+                $enemy.hide();
+                $bam.show();
+
+                setTimeout(function() {
+                    $wrapper.fadeOut(null, function() {
+                        $fireball.css({left: '70px'});
+                        $fireball.show();
+                        $enemy.show();
+                        $bam.hide();
+                    });
+                }, 1000);
+            });
+            // now animate the fireball to the right
+            // maybe make it pulse
+            // then kill the goomba
+            // then re-hide all of it and reset
 
             return false;
         });

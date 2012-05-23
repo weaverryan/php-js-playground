@@ -6,22 +6,58 @@ body {
 .event-details {
     margin-bottom: 20px;
 }
-.event-details .inner {
+.event-details .box {
+    padding: 20px;
+    border: 1px solid #000;
+    background: #fff;
+    font-size: 16px;
+}
+.event-details .mario {
+    border: 2px solid #0000ff;
+    color: red;
+}
+.event-details .luigi {
+    border: 2px solid #00008b;
+    color: green;
+}
+.event-details .peach {
+    border: 2px solid #ffc0cb;
+    color: #cc909b;
+}
+.event-details .peach a {
+    color: #cc909b;
+}
+.event-details .peach {
     display: block;
 }
 .event-details .log {
     height: 150px;
     overflow: scroll;
 }
-.event-details .middle {
+.event-details .luigi {
     margin-bottom: 20px;
 }
-.event-details .box {
-    padding: 20px;
-    border: 1px solid #000;
-    background: #fff;
+.event-details .luigi .kick-butt-with-fire {
+    display: none;
+    position: relative;
 }
-
-.event-details .middle.active {
-    background-color: #ffcc33;
+.event-details .luigi .kick-butt-with-fire .fireball {
+    position: absolute;
+    left: 70px;
+    bottom: 20px;
+    z-index: 10;
+}
+.event-details .luigi .kick-butt-with-fire .enemy {
+    position: absolute;
+    left: 400px;
+    bottom: 0;
+    z-index: 5;
+}
+.event-details .luigi .kick-butt-with-fire .bam-explode {
+    position: absolute;
+    display: none;
+    left: 300px;
+    bottom: 0;
+    margin-bottom: -50px;
+    z-index: 5;
 }
