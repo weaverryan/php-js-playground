@@ -32,7 +32,6 @@ body {
 }
 .event-details .log {
     height: 160px;
-    overflow: scroll;
     font-size: 24px;
 }
 .event-details .log .log-row {
@@ -50,6 +49,7 @@ body {
     position: absolute;
     top: 0;
     right: 0;
+    margin-right: -20px;
 }
 .event-details .luigi {
     margin-bottom: 20px;
