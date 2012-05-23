@@ -3,77 +3,77 @@ body {
     padding-bottom: 40px;
 }
 
-.event-details {
+.mario-world {
     margin-bottom: 20px;
 }
-.event-details .box {
+.mario-world .box {
     padding: 20px;
     border: 1px solid #000;
     background: #fff;
     font-size: 16px;
 }
-.event-details .mario {
+.mario-world .mario {
     border: 2px solid #0000ff;
     color: red;
 }
-.event-details .luigi {
+.mario-world .luigi {
     border: 2px solid #00008b;
     color: green;
 }
-.event-details .peach {
+.mario-world .peach {
     border: 2px solid #ffc0cb;
     color: #cc909b;
 }
-.event-details .peach a {
+.mario-world .peach a {
     color: #cc909b;
 }
-.event-details .peach {
+.mario-world .peach {
     display: block;
 }
-.event-details .log {
+.mario-world .log {
     height: 160px;
     font-size: 24px;
 }
-.event-details .log .log-row {
+.mario-world .log .log-row {
     border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
     margin-bottom: 10px;
     position: relative;
 }
-.event-details .log span.label {
+.mario-world .log span.label {
     display: -moz-inline-box;
     display: inline-block;
     width: 100px;
 }
-.event-details .log .badge {
+.mario-world .log .badge {
     position: absolute;
     top: 0;
     right: 0;
     margin-right: -20px;
 }
-.event-details .luigi {
+.mario-world .luigi {
     margin-bottom: 20px;
 }
-.event-details .luigi .kick-butt {
+.mario-world .luigi .kick-butt {
     display: none;
     position: relative;
 }
-.event-details .luigi.active .kick-butt {
+.mario-world .luigi.active .kick-butt {
     display: block;
 }
-.event-details .luigi .kick-butt .fireball {
+.mario-world .luigi .kick-butt .fireball {
     position: absolute;
     left: 70px;
     bottom: 20px;
     z-index: 10;
 }
-.event-details .luigi .kick-butt .enemy {
+.mario-world .luigi .kick-butt .enemy {
     position: absolute;
     left: 400px;
     bottom: 0;
     z-index: 5;
 }
-.event-details .luigi .kick-butt .bam-explode {
+.mario-world .luigi .kick-butt .bam-explode {
     position: absolute;
     display: none;
     left: 300px;
