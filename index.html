@@ -83,6 +83,8 @@
 <script type="text/javascript">
     jQuery(document).ready(function() {
         var $luigi = $('.event-details .luigi');
+        // a local (to this "ready" block) variable to keep track of how many events we've logged
+        var logCount = 0;
 
         $luigi.click(function(event) {
             // *almost* the same as returning false, but better, for one,
@@ -116,14 +118,18 @@
         $('.event-details').click(function(event) {
             event.preventDefault();
 
+            // print out some details about the event
             var $log = $(this).find('.log');
-            $log.prepend('<hr/>');
 
-            var html = '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
+            var html = '<span class="badge badge-info">'+logCount+'</span>';
+            html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
             html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
-            html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class') + '<br/>';
+            html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
 
-            $log.prepend(html);
+            $log.prepend('<div class="log-row">'+html+'</div>');
+
+            // increase the local logCount variable
+            logCount++;
         });
     });
 </script>
