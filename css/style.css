@@ -1,4 +1,27 @@
-#event-details .outer, #event-details .middle, #event-details .inner {
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.event-details {
+    margin-bottom: 20px;
+}
+.event-details .inner {
+    display: block;
+}
+.event-details .log {
+    height: 150px;
+    overflow: scroll;
+}
+.event-details .middle {
+    margin-bottom: 20px;
+}
+.event-details .box {
     padding: 20px;
     border: 1px solid #000;
+    background: #fff;
+}
+
+.event-details .middle.active {
+    background-color: #ffcc33;
 }

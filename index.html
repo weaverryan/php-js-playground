@@ -48,17 +48,19 @@
     <div class="row">
         <div class="span12">
 
-            <div id="event-details">
-                <div class="outer">
-                    Outer
-                    <div class="middle">
-                        Middle
-                        <div class="inner">
-                            Inner
+            <div class="event-details row-fluid">
+                <div class="span8">
+                    <div class="outer box">
+                        Outer
+                        <div class="middle box">
+                            Middle
+                            <a href="#" class="inner box">
+                                Inner
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div id="log"></div>
+                <div class="span4 log"></div>
             </div>
 
         </div>
@@ -73,10 +75,12 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        var $eventDetails = $('#event-details');
+        var $eventDetails = $('.event-details');
 
         $eventDetails.on('click', function() {
-            $("#log").html("clicked: ." + $(event.target).attr('class'));
+            $(this).find('.log').html("clicked: ." + $(event.target).attr('class'));
+
+            return false;
         });
     });
 </script>
