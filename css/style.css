@@ -41,6 +41,9 @@ body {
     display: none;
     position: relative;
 }
+.event-details .luigi.active .kick-butt {
+    display: block;
+}
 .event-details .luigi .kick-butt .fireball {
     position: absolute;
     left: 70px;

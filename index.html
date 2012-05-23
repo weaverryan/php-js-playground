@@ -85,7 +85,7 @@
         var $luigi = $('.event-details .luigi');
 
         $luigi.click(function() {
-            var $wrapper = $(this).find('.kick-butt').show();
+            $luigi.addClass('active');
 
             var $fireball = $(this).find('.fireball');
             var $enemy = $(this).find('.enemy');
@@ -99,12 +99,11 @@
                 $bam.show();
 
                 setTimeout(function() {
-                    $wrapper.fadeOut(null, function() {
-                        $fireball.css({left: '70px'});
-                        $fireball.show();
-                        $enemy.show();
-                        $bam.hide();
-                    });
+                    $luigi.removeClass('active');
+                    $fireball.css({left: '70px'});
+                    $fireball.show();
+                    $enemy.show();
+                    $bam.hide();
                 }, 1000);
             });
 
