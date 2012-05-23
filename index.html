@@ -54,7 +54,7 @@
                         .mario
                         <div class="luigi box">
                             .luigi
-                            <div class="kick-butt-with-fire">
+                            <div class="kick-butt">
                                 <img src="images/luigi.gif" alt="Luigi, kicking ass" class="luigi-himself" />
                                 <img src="images/fireball.gif" alt="fireball!" class="fireball" />
                                 <img src="images/goomba.gif" alt="Enemy" class="enemy" />
@@ -85,7 +85,7 @@
         var $luigi = $('.event-details .luigi');
 
         $luigi.click(function() {
-            var $wrapper = $(this).find('.kick-butt-with-fire').show();
+            var $wrapper = $(this).find('.kick-butt').show();
 
             var $fireball = $(this).find('.fireball');
             var $enemy = $(this).find('.enemy');

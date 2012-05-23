@@ -37,23 +37,23 @@ body {
 .event-details .luigi {
     margin-bottom: 20px;
 }
-.event-details .luigi .kick-butt-with-fire {
+.event-details .luigi .kick-butt {
     display: none;
     position: relative;
 }
-.event-details .luigi .kick-butt-with-fire .fireball {
+.event-details .luigi .kick-butt .fireball {
     position: absolute;
     left: 70px;
     bottom: 20px;
     z-index: 10;
 }
-.event-details .luigi .kick-butt-with-fire .enemy {
+.event-details .luigi .kick-butt .enemy {
     position: absolute;
     left: 400px;
     bottom: 0;
     z-index: 5;
 }
-.event-details .luigi .kick-butt-with-fire .bam-explode {
+.event-details .luigi .kick-butt .bam-explode {
     position: absolute;
     display: none;
     left: 300px;
