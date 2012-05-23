@@ -82,16 +82,27 @@
 <script src="js/jquery.js"></script>
 
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        var $luigi = $('.event-details .luigi');
-        // a local (to this "ready" block) variable to keep track of how many events we've logged
-        var logCount = 0;
+    // a global object we can use to store and namespace things
+    window.MagicBoxes = {
+        logCount: 0,
 
-        $luigi.click(function(event) {
+        initializeLuigiClick: function($container) {
+            // register the luigi click
+            $container.find('.luigi').click(this._handleLuigiClick);
+
+            // register the wrapper logging click
+            $container.click(this._handleEventLogging);
+        },
+
+        _handleLuigiClick: function(event) {
             // *almost* the same as returning false, but better, for one,
             // becauase it does not stop event propagation
             event.preventDefault();
 
+            // luigi will be equal to this
+            var $luigi = $(this);
+            // alternatively, we could say
+            // var $luigi = $(event.currentTarget);
             $luigi.addClass('active');
 
             var $fireball = $(this).find('.fireball');
@@ -113,16 +124,16 @@
                     $bam.hide();
                 }, 1000);
             });
-        });
+        },
 
-        // add a little hook to print out details about our event
-        $('.event-details').click(function(event) {
+        // handles the click on the whole wrapper to log events
+        _handleEventLogging: function(event) {
             event.preventDefault();
 
             // print out some details about the event
             var $log = $(this).find('.log');
 
-            var html = '<span class="badge badge-info">'+logCount+'</span>';
+            var html = '<span class="badge badge-info">'+MagicBoxes.logCount+'</span>';
             html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
             html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
             html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
@@ -130,8 +141,13 @@
             $log.prepend('<div class="log-row">'+html+'</div>');
 
             // increase the local logCount variable
-            logCount++;
-        });
+            MagicBoxes.logCount++;
+        }
+    };
+
+    jQuery(document).ready(function() {
+        // initialize our little application
+        MagicBoxes.initializeLuigiClick($('.event-details'));
     });
 </script>
 
