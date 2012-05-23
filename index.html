@@ -119,9 +119,9 @@
             var $log = $(this).find('.log');
             $log.prepend('<hr/>');
 
-            var html = 'target: .' + $(event.target).attr('class') + '<br/>';
-            html += 'currentTarget: .' + $(event.currentTarget).attr('class') + '<br/>';
-            html += 'delegateTarget: .' + $(event.delegateTarget).attr('class') + '<br/>';
+            var html = '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
+            html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
+            html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class') + '<br/>';
 
             $log.prepend(html);
         });
