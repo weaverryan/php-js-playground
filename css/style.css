@@ -34,10 +34,21 @@ body {
     height: 150px;
     overflow: scroll;
 }
+.event-details .log .log-row {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
 .event-details .log span.label {
     display: -moz-inline-box;
     display: inline-block;
     width: 100px;
+}
+.event-details .log .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 .event-details .luigi {
     margin-bottom: 20px;
