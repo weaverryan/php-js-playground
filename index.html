@@ -49,7 +49,7 @@
     <div class="row">
         <div class="span12">
 
-            <div class="event-details row-fluid">
+            <div class="mario-world row-fluid">
                 <div class="span8">
                     <div class="mario box">
                         .mario
@@ -83,7 +83,7 @@
 
 <script type="text/javascript">
     jQuery(document).ready(function() {
-        var $luigi = $('.event-details .luigi');
+        var $luigi = $('.mario-world .luigi');
         // a local (to this "ready" block) variable to keep track of how many events we've logged
         var logCount = 0;
 
@@ -116,7 +116,7 @@
         });
 
         // add a little hook to print out details about our event
-        $('.event-details').click(function(event) {
+        $('.mario-world').click(function(event) {
             event.preventDefault();
 
             // print out some details about the event
