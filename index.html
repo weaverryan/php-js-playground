@@ -161,17 +161,26 @@
 
             // use currentTarget, because it's the element that was actually attached to this event
             this.makeLuigiFight($(event.currentTarget));
+            this.logEvent(event, 'Luigi click');
         },
 
         _handleEventLogging: function(event) {
             // handles the click on the whole wrapper to log events
             event.preventDefault();
 
+            this.logEvent(event, 'Generic box click');
+        },
+
+        /*
+         * Re-usable function to log details about an event
+         */
+        logEvent: function(event, label) {
             // print out some details about the event
             var $log = this.$el.find('.log');
 
             // the logCount is temporarily broken! See my note below
             var html = '<span class="badge badge-info">'+this.logCount+'</span>';
+            html += '<h4>'+label+'</h4>'
             html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
             html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
             html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
