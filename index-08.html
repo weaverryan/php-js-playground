@@ -48,7 +48,7 @@
 
     <div class="row">
         <div class="span12">
-            <h1>7 - Self-executing blocks</h1>
+            <h1>8 - A Backbone View</h1>
 
             <div class="mario-world row-fluid">
                 <div class="span8">
@@ -79,8 +79,7 @@
     
     <div class="pagination">
         <ul>
-            <li><a href="index-06.html">Prev</a></li>
-            <li><a href="index-08.html">Next</a></li>
+            <li><a href="index-07.html">Prev</a></li>
         </ul>
     </div>
 
@@ -90,9 +89,10 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/jquery.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/backbone.js"></script>
 
 <script type="text/javascript">
-
     /* this is a self-executing JavaScript block
      * the purpose is for it to do some sort of logic or setup, but completely
      * inside this bubble. We don't care at all what goes on inside, and we
@@ -103,33 +103,23 @@
      */
     window.MagicBoxes = (function($) {
 
-        // a global object we can use to store and namespace things
-        var MagicBoxesVar = function($container) {
-            this.$el = $container;
-            this.logCount = 0;
+        return Backbone.View.extend({
+            logCount: 0,
 
-            this.initialize();
-        };
+            // specify events you want right here, backbone handles applying these using "delegate" events
+            events: {
+                'click .luigi': '_handleLuigiClick',
+                'click': '_handleEventLogging'
+            },
 
-        /*
-         * jQuery.extend merges the {} object into MagicBoxes.prototype
-         * this effectively "extends" it by adding methods to the prototype
-         * this is the same thing we had before, but a little cleaner, and more common
-         *
-         * This functions almost like an array_merge of 2 objects. In this case
-         * we're adding one object with some method (the {} guy) into the "prototype",
-         * which makes those methods available when we create an instance of that object
-         */
-        $.extend(MagicBoxesVar.prototype, {
-            initialize: function() {
+            /*
+             * This method is automatically called by backbone
+             */
+            initialize: function(options) {
                 /*
-                 * In both cases, the $.proxy ensures that "this" in the resulting
-                 * function refers to this (e.g. MagicBoxes) instances.
-                 *
-                 * Without the $.proxy, "this" is the element that is responding
-                 * to the jQuery event (i.e. event.currentTarget). We want to keep
-                 * the scope in "this" object, so that we can continue calling other
-                 * methods on our object.
+                 * Underscore's bindAll method accomplishes the same thing
+                 * as jQuery.proxy: to ensure that when these methods are
+                 * called, "this" really means this object.
                  *
                  * In PHP, this would be as if we could call a function on an object,
                  * but force $this to be something different inside that method:
@@ -142,13 +132,7 @@
                  * call_user_function_array(array($foo, 'doThings'), array(), $bar));
                  */
 
-                // register a delegate event
-                // by registering on the outer wrapper, but looking at ".luigi",
-                // this will continue to work even if we add new ".luigi" elements after this bind
-                this.$el.on('click', '.luigi', $.proxy(this._handleLuigiClick, this));
-
-                // register the wrapper logging click
-                this.$el.click($.proxy(this._handleEventLogging, this));
+                _.bindAll(this, '_handleLuigiClick', '_handleEventLogging')
             },
 
             makeLuigiFight: function($luigi) {
@@ -199,7 +183,7 @@
              */
             logEvent: function(event, label) {
                 // print out some details about the event
-                var $log = this.$el.find('.log');
+                var $log = this.el.find('.log');
 
                 // the logCount is temporarily broken! See my note below
                 var html = '<span class="badge badge-info">'+this.logCount+'</span>';
@@ -214,13 +198,14 @@
                 this.logCount++;
             }
         });
-
-        return MagicBoxesVar;
     })(jQuery);
 
     jQuery(document).ready(function() {
         // initialize our little application
-        var magicBoxApp = new MagicBoxes($('.mario-world'));
+        var magicBoxApp = new MagicBoxes({
+            // in a backbone view, pass the "el" as one of the options
+            el: $('.mario-world')
+        });
 
         // add a whole other luigi block
         $('.add-more-luigis').on('click', function(event) {
