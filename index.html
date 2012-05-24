@@ -71,6 +71,8 @@
                 <div class="span4 log"></div>
             </div>
 
+            <a href="#" class="add-more-luigis btn"><i class="icon-plus"></i>Add more Luigis!</a>
+
         </div>
     </div>
 
@@ -121,8 +123,10 @@
              * call_user_function_array(array($foo, 'doThings'), array(), $bar));
              */
 
-            // register the luigi click
-            this.$el.find('.luigi').click($.proxy(this._handleLuigiClick, this));
+            // register a delegate event
+            // by registering on the outer wrapper, but looking at ".luigi",
+            // this will continue to work even if we add new ".luigi" elements after this bind
+            this.$el.on('click', '.luigi', $.proxy(this._handleLuigiClick, this));
 
             // register the wrapper logging click
             this.$el.click($.proxy(this._handleEventLogging, this));
@@ -195,6 +199,15 @@
     jQuery(document).ready(function() {
         // initialize our little application
         var magicBoxApp = new MagicBoxes($('.mario-world'));
+
+        // add a whole other luigi block
+        $('.add-more-luigis').on('click', function(event) {
+            event.preventDefault();
+
+            var $luigi = $('.mario-world .luigi');
+            var $newLuigi = $luigi.clone();
+            $luigi.after($newLuigi);
+        });
     });
 </script>
 
