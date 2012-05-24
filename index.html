@@ -90,9 +90,15 @@
         this.initialize();
     };
 
-    // jQuery.extend merges the {} object into MagicBoxes.prototype
-    // this effectively "extends" it by adding methods to the prototype
-    // this is the same thing we had before, but a little cleaner, and more common
+    /*
+     * jQuery.extend merges the {} object into MagicBoxes.prototype
+     * this effectively "extends" it by adding methods to the prototype
+     * this is the same thing we had before, but a little cleaner, and more common
+     *
+     * This functions almost like an array_merge of 2 objects. In this case
+     * we're adding one object with some method (the {} guy) into the "prototype",
+     * which makes those methods available when we create an instance of that object
+     */
     $.extend(MagicBoxes.prototype, {
         initialize: function() {
             /*
