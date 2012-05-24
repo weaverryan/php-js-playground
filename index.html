@@ -204,7 +204,7 @@
         $('.add-more-luigis').on('click', function(event) {
             event.preventDefault();
 
-            var $luigi = $('.mario-world .luigi');
+            var $luigi = $('.mario-world .luigi:first');
             var $newLuigi = $luigi.clone();
             $luigi.after($newLuigi);
         });
