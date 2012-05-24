@@ -84,117 +84,131 @@
 <script src="js/jquery.js"></script>
 
 <script type="text/javascript">
-    // a global object we can use to store and namespace things
-    window.MagicBoxes = function($container) {
-        this.$el = $container;
-        this.logCount = 0;
 
-        this.initialize();
-    };
-
-    /*
-     * jQuery.extend merges the {} object into MagicBoxes.prototype
-     * this effectively "extends" it by adding methods to the prototype
-     * this is the same thing we had before, but a little cleaner, and more common
+    /* this is a self-executing JavaScript block
+     * the purpose is for it to do some sort of logic or setup, but completely
+     * inside this bubble. We don't care at all what goes on inside, and we
+     * event pass the jQuery object into this function (see end of the block).
      *
-     * This functions almost like an array_merge of 2 objects. In this case
-     * we're adding one object with some method (the {} guy) into the "prototype",
-     * which makes those methods available when we create an instance of that object
+     * The internal block returns the finished object, and that's all we care about
+     * The zombie apocalypse could have broken out inside, and we really wouldn't care
      */
-    $.extend(MagicBoxes.prototype, {
-        initialize: function() {
-            /*
-             * In both cases, the $.proxy ensures that "this" in the resulting
-             * function refers to this (e.g. MagicBoxes) instances.
-             *
-             * Without the $.proxy, "this" is the element that is responding
-             * to the jQuery event (i.e. event.currentTarget). We want to keep
-             * the scope in "this" object, so that we can continue calling other
-             * methods on our object.
-             *
-             * In PHP, this would be as if we could call a function on an object,
-             * but force $this to be something different inside that method:
-             *
-             * $foo = new Foo();
-             * $bar = new Bar();
-             *
-             * // this is totally made-up, just for analogy
-             * // call $foo->doThings(), but make $this actually be $bar in that method
-             * call_user_function_array(array($foo, 'doThings'), array(), $bar));
-             */
+    window.MagicBoxes = (function($) {
 
-            // register a delegate event
-            // by registering on the outer wrapper, but looking at ".luigi",
-            // this will continue to work even if we add new ".luigi" elements after this bind
-            this.$el.on('click', '.luigi', $.proxy(this._handleLuigiClick, this));
+        // a global object we can use to store and namespace things
+        var MagicBoxesVar = function($container) {
+            this.$el = $container;
+            this.logCount = 0;
 
-            // register the wrapper logging click
-            this.$el.click($.proxy(this._handleEventLogging, this));
-        },
-
-        makeLuigiFight: function($luigi) {
-            // alternatively, we could say
-            // var $luigi = $(event.currentTarget);
-            $luigi.addClass('active');
-
-            var $fireball = $luigi.find('.fireball');
-            var $enemy = $luigi.find('.enemy');
-            var $bam = $luigi.find('.bam-explode');
-
-            $fireball.animate({
-                left: '+=320'
-            }, 1000, function() {
-                $fireball.hide();
-                $enemy.hide();
-                $bam.show();
-
-                setTimeout(function() {
-                    $luigi.removeClass('active');
-                    $fireball.css({left: '70px'});
-                    $fireball.show();
-                    $enemy.show();
-                    $bam.hide();
-                }, 1000);
-            });
-        },
-
-        _handleLuigiClick: function(event) {
-            // *almost* the same as returning false, but better, for one,
-            // because it does not stop event propagation
-            event.preventDefault();
-
-            // use currentTarget, because it's the element that was actually attached to this event
-            this.makeLuigiFight($(event.currentTarget));
-            this.logEvent(event, 'Luigi click');
-        },
-
-        _handleEventLogging: function(event) {
-            // handles the click on the whole wrapper to log events
-            event.preventDefault();
-
-            this.logEvent(event, 'Generic box click');
-        },
+            this.initialize();
+        };
 
         /*
-         * Re-usable function to log details about an event
+         * jQuery.extend merges the {} object into MagicBoxes.prototype
+         * this effectively "extends" it by adding methods to the prototype
+         * this is the same thing we had before, but a little cleaner, and more common
+         *
+         * This functions almost like an array_merge of 2 objects. In this case
+         * we're adding one object with some method (the {} guy) into the "prototype",
+         * which makes those methods available when we create an instance of that object
          */
-        logEvent: function(event, label) {
-            // print out some details about the event
-            var $log = this.$el.find('.log');
+        $.extend(MagicBoxesVar.prototype, {
+            initialize: function() {
+                /*
+                 * In both cases, the $.proxy ensures that "this" in the resulting
+                 * function refers to this (e.g. MagicBoxes) instances.
+                 *
+                 * Without the $.proxy, "this" is the element that is responding
+                 * to the jQuery event (i.e. event.currentTarget). We want to keep
+                 * the scope in "this" object, so that we can continue calling other
+                 * methods on our object.
+                 *
+                 * In PHP, this would be as if we could call a function on an object,
+                 * but force $this to be something different inside that method:
+                 *
+                 * $foo = new Foo();
+                 * $bar = new Bar();
+                 *
+                 * // this is totally made-up, just for analogy
+                 * // call $foo->doThings(), but make $this actually be $bar in that method
+                 * call_user_function_array(array($foo, 'doThings'), array(), $bar));
+                 */
 
-            // the logCount is temporarily broken! See my note below
-            var html = '<span class="badge badge-info">'+this.logCount+'</span>';
-            html += '<h4>'+label+'</h4>'
-            html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
-            html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
-            html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
+                // register a delegate event
+                // by registering on the outer wrapper, but looking at ".luigi",
+                // this will continue to work even if we add new ".luigi" elements after this bind
+                this.$el.on('click', '.luigi', $.proxy(this._handleLuigiClick, this));
 
-            $log.prepend('<div class="log-row">'+html+'</div>');
+                // register the wrapper logging click
+                this.$el.click($.proxy(this._handleEventLogging, this));
+            },
 
-            // increase the local logCount variable
-            this.logCount++;
-        }
-    });
+            makeLuigiFight: function($luigi) {
+                // alternatively, we could say
+                // var $luigi = $(event.currentTarget);
+                $luigi.addClass('active');
+
+                var $fireball = $luigi.find('.fireball');
+                var $enemy = $luigi.find('.enemy');
+                var $bam = $luigi.find('.bam-explode');
+
+                $fireball.animate({
+                    left: '+=320'
+                }, 1000, function() {
+                    $fireball.hide();
+                    $enemy.hide();
+                    $bam.show();
+
+                    setTimeout(function() {
+                        $luigi.removeClass('active');
+                        $fireball.css({left: '70px'});
+                        $fireball.show();
+                        $enemy.show();
+                        $bam.hide();
+                    }, 1000);
+                });
+            },
+
+            _handleLuigiClick: function(event) {
+                // *almost* the same as returning false, but better, for one,
+                // because it does not stop event propagation
+                event.preventDefault();
+
+                // use currentTarget, because it's the element that was actually attached to this event
+                this.makeLuigiFight($(event.currentTarget));
+                this.logEvent(event, 'Luigi click');
+            },
+
+            _handleEventLogging: function(event) {
+                // handles the click on the whole wrapper to log events
+                event.preventDefault();
+
+                this.logEvent(event, 'Generic box click');
+            },
+
+            /*
+             * Re-usable function to log details about an event
+             */
+            logEvent: function(event, label) {
+                // print out some details about the event
+                var $log = this.$el.find('.log');
+
+                // the logCount is temporarily broken! See my note below
+                var html = '<span class="badge badge-info">'+this.logCount+'</span>';
+                html += '<h4>'+label+'</h4>'
+                html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
+                html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
+                html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
+
+                $log.prepend('<div class="log-row">'+html+'</div>');
+
+                // increase the local logCount variable
+                this.logCount++;
+            }
+        });
+
+        return MagicBoxesVar;
+    })(jQuery);
 
     jQuery(document).ready(function() {
         // initialize our little application
