@@ -1,0 +1,83 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+.mario-world {
+    margin-bottom: 20px;
+}
+.mario-world .box {
+    padding: 20px;
+    border: 1px solid #000;
+    background: #fff;
+    font-size: 16px;
+}
+.mario-world .mario {
+    border: 2px solid #0000ff;
+    color: red;
+}
+.mario-world .luigi {
+    border: 2px solid #00008b;
+    color: green;
+}
+.mario-world .peach {
+    border: 2px solid #ffc0cb;
+    color: #cc909b;
+}
+.mario-world .peach a {
+    color: #cc909b;
+}
+.mario-world .peach {
+    display: block;
+}
+.mario-world .log {
+    height: 160px;
+    font-size: 24px;
+}
+.mario-world .log .log-row {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+.mario-world .log span.label {
+    display: -moz-inline-box;
+    display: inline-block;
+    width: 100px;
+}
+.mario-world .log .badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-right: -20px;
+}
+.mario-world .luigi {
+    margin-bottom: 20px;
+}
+.mario-world .luigi .kick-butt {
+    display: none;
+    position: relative;
+}
+.mario-world .luigi.active .kick-butt {
+    display: block;
+}
+.mario-world .luigi .kick-butt .fireball {
+    position: absolute;
+    left: 70px;
+    bottom: 20px;
+    z-index: 10;
+}
+.mario-world .luigi .kick-butt .enemy {
+    position: absolute;
+    left: 400px;
+    bottom: 0;
+    z-index: 5;
+}
+.mario-world .luigi .kick-butt .bam-explode {
+    position: absolute;
+    display: none;
+    left: 300px;
+    bottom: 0;
+    margin-bottom: -50px;
+    z-index: 5;
+}

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>php|tek 2012 - Writing bad JavaScript with Mario!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="ryan@knplabs.com">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+    </style>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">php|tek JavaScript Playground</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="http://knpuniversity.com">KnpUniversity.com (shameless plug)</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="span12">
+            <h1>6 - Delegate events: the scholar's jQuery.live</h1>
+
+            <div class="mario-world row-fluid">
+                <div class="span8">
+                    <div class="mario box">
+                        .mario
+                        <div class="luigi box">
+                            .luigi
+                            <div class="kick-butt">
+                                <img src="images/luigi.gif" alt="Luigi, kicking ass" class="luigi-himself" />
+                                <img src="images/fireball.gif" alt="fireball!" class="fireball" />
+                                <img src="images/goomba.gif" alt="Enemy" class="enemy" />
+
+                                <img src="images/bam.gif" alt="BAM!" class="bam-explode" />
+                            </div>
+                            <a href="#" class="peach box">
+                                .peach
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="span4 log"></div>
+            </div>
+
+            <a href="#" class="add-more-luigis btn"><i class="icon-plus"></i>Add more Luigis!</a>
+
+        </div>
+    </div>
+    
+    <div class="pagination">
+        <ul>
+            <li><a href="index-05.html">Prev</a></li>
+            <li><a href="index-07.html">Next</a></li>
+        </ul>
+    </div>
+
+</div> <!-- /container -->
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.js"></script>
+
+<script type="text/javascript">
+    // a global object we can use to store and namespace things
+    window.MagicBoxes = function($container) {
+        this.$el = $container;
+        this.logCount = 0;
+
+        this.initialize();
+    };
+
+    /*
+     * jQuery.extend merges the {} object into MagicBoxes.prototype
+     * this effectively "extends" it by adding methods to the prototype
+     * this is the same thing we had before, but a little cleaner, and more common
+     *
+     * This functions almost like an array_merge of 2 objects. In this case
+     * we're adding one object with some method (the {} guy) into the "prototype",
+     * which makes those methods available when we create an instance of that object
+     */
+    $.extend(MagicBoxes.prototype, {
+        initialize: function() {
+            /*
+             * In both cases, the $.proxy ensures that "this" in the resulting
+             * function refers to this (e.g. MagicBoxes) instances.
+             *
+             * Without the $.proxy, "this" is the element that is responding
+             * to the jQuery event (i.e. event.currentTarget). We want to keep
+             * the scope in "this" object, so that we can continue calling other
+             * methods on our object.
+             *
+             * In PHP, this would be as if we could call a function on an object,
+             * but force $this to be something different inside that method:
+             *
+             * $foo = new Foo();
+             * $bar = new Bar();
+             *
+             * // this is totally made-up, just for analogy
+             * // call $foo->doThings(), but make $this actually be $bar in that method
+             * call_user_function_array(array($foo, 'doThings'), array(), $bar));
+             */
+
+            // register a delegate event
+            // by registering on the outer wrapper, but looking at ".luigi",
+            // this will continue to work even if we add new ".luigi" elements after this bind
+            this.$el.on('click', '.luigi', $.proxy(this._handleLuigiClick, this));
+
+            // register the wrapper logging click
+            this.$el.click($.proxy(this._handleEventLogging, this));
+        },
+
+        makeLuigiFight: function($luigi) {
+            // alternatively, we could say
+            // var $luigi = $(event.currentTarget);
+            $luigi.addClass('active');
+
+            var $fireball = $luigi.find('.fireball');
+            var $enemy = $luigi.find('.enemy');
+            var $bam = $luigi.find('.bam-explode');
+
+            $fireball.animate({
+                left: '+=320'
+            }, 1000, function() {
+                $fireball.hide();
+                $enemy.hide();
+                $bam.show();
+
+                setTimeout(function() {
+                    $luigi.removeClass('active');
+                    $fireball.css({left: '70px'});
+                    $fireball.show();
+                    $enemy.show();
+                    $bam.hide();
+                }, 1000);
+            });
+        },
+
+        _handleLuigiClick: function(event) {
+            // *almost* the same as returning false, but better, for one,
+            // because it does not stop event propagation
+            event.preventDefault();
+
+            // use currentTarget, because it's the element that was actually attached to this event
+            this.makeLuigiFight($(event.currentTarget));
+            this.logEvent(event, 'Luigi click');
+        },
+
+        _handleEventLogging: function(event) {
+            // handles the click on the whole wrapper to log events
+            event.preventDefault();
+
+            this.logEvent(event, 'Generic box click');
+        },
+
+        /*
+         * Re-usable function to log details about an event
+         */
+        logEvent: function(event, label) {
+            // print out some details about the event
+            var $log = this.$el.find('.log');
+
+            // the logCount is temporarily broken! See my note below
+            var html = '<span class="badge badge-info">'+this.logCount+'</span>';
+            html += '<h4>'+label+'</h4>'
+            html += '<span class="label">target:</span> .' + $(event.target).attr('class') + '<br/>';
+            html += '<span class="label">currentTarget:</span> .' + $(event.currentTarget).attr('class') + '<br/>';
+            html += '<span class="label">delegateTarget:</span> .' + $(event.delegateTarget).attr('class');
+
+            $log.prepend('<div class="log-row">'+html+'</div>');
+
+            // increase the local logCount variable
+            this.logCount++;
+        }
+    });
+
+    jQuery(document).ready(function() {
+        // initialize our little application
+        var magicBoxApp = new MagicBoxes($('.mario-world'));
+
+        // add a whole other luigi block
+        $('.add-more-luigis').on('click', function(event) {
+            event.preventDefault();
+
+            var $luigi = $('.mario-world .luigi:first');
+            var $newLuigi = $luigi.clone();
+            $luigi.after($newLuigi);
+        });
+    });
+</script>
+
+</body>
+</html>
